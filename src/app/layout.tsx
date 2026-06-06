@@ -25,14 +25,9 @@ export default function RootLayout({
             <a href="/" className="nav-link">Home</a>
             <a href="/apply" className="nav-link">Apply for Loan</a>
             <a href="/payment-info" className="nav-link">How to Pay</a>
-            <div className="nav-dropdown">
-              <span className="nav-link dropdown-trigger">Tools ▾</span>
-              <div className="dropdown-content">
-                <a href="https://loanen.vercel.app/" target="_blank" rel="noopener noreferrer" className="dropdown-item">
-                  Staff Login
-                </a>
-              </div>
-            </div>
+            <a href="https://loanen.vercel.app/" target="_blank" rel="noopener noreferrer" className="nav-link staff-login-btn">
+              Staff Login
+            </a>
           </div>
         </nav>
         {children}
