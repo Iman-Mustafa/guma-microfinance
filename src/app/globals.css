@@ -132,25 +132,15 @@ a {
   background: rgba(16, 185, 129, 0.1);
 }
 
-/* 3D Carousel Section */
+/* Slideshow Section */
 .carousel-container {
   margin: 3rem auto;
-  perspective: 1000px;
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.carousel-tray {
-  width: 300px;
-  height: 60px;
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 70%);
-  border-radius: 50%;
-  margin-top: -30px;
-  z-index: 1;
 }
 
 .carousel-stage {
@@ -160,36 +150,34 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  transform-style: preserve-3d;
 }
 
 .carousel-item {
   position: absolute;
-  width: 600px;
-  height: 400px;
+  width: 100%;
+  height: 100%;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  transition: all 0.5s ease-in-out;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: opacity 0.5s ease-in-out;
   opacity: 0;
   z-index: 2;
+  pointer-events: none;
 }
 
 .carousel-item.active {
   opacity: 1;
-  transform: scale(1) translateZ(0);
   z-index: 5;
+  pointer-events: auto;
 }
 
 .carousel-item.prev {
-  opacity: 0.6;
-  transform: scale(0.8) translateX(-50%) translateZ(-100px);
+  opacity: 0;
   z-index: 4;
 }
 
 .carousel-item.next {
-  opacity: 0.6;
-  transform: scale(0.8) translateX(50%) translateZ(-100px);
+  opacity: 0;
   z-index: 4;
 }
 

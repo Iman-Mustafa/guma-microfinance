@@ -39,7 +39,6 @@ export default function VehicleCarousel() {
           </div>
         ))}
       </div>
-      <div className="carousel-tray"></div>
       <div className="carousel-controls">
         <button onClick={prevSlide} className="carousel-btn" aria-label="Previous">&lt;</button>
         <button onClick={nextSlide} className="carousel-btn" aria-label="Next">&gt;</button>
