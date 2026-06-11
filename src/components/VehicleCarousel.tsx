@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 const images = Array.from({ length: 13 }, (_, i) => `/guma-product/vehicle-${i + 1}.jpg`);
@@ -15,6 +15,14 @@ export default function VehicleCarousel() {
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 5000); // Change slide every 5 seconds
+    
+    return () => clearInterval(timer);
+  }, []);
 
   const getClassName = (index: number) => {
     if (index === currentIndex) return "carousel-item active";
