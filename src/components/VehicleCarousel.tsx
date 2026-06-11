@@ -10,6 +10,7 @@ const extendedImages = [images[images.length - 1], ...images, images[0]];
 export default function VehicleCarousel() {
   const [currentIndex, setCurrentIndex] = useState(1); // Start at index 1 (the first real image)
   const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const nextSlide = () => {
@@ -25,6 +26,8 @@ export default function VehicleCarousel() {
   };
 
   useEffect(() => {
+    if (isHovered) return; // Pause the slideshow if the user is hovering
+
     // The user requested to move from "left to right", which means the previous slide comes in
     timerRef.current = setInterval(() => {
       prevSlide();
@@ -33,7 +36,7 @@ export default function VehicleCarousel() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [currentIndex]);
+  }, [currentIndex, isHovered]);
 
   const handleTransitionEnd = () => {
     if (currentIndex === extendedImages.length - 1) {
@@ -48,7 +51,11 @@ export default function VehicleCarousel() {
   };
 
   return (
-    <div className="carousel-container">
+    <div 
+      className="carousel-container"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="carousel-stage">
         <div 
           className="carousel-track"
