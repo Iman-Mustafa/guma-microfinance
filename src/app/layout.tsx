@@ -44,6 +44,35 @@ export default function RootLayout({
           </div>
         </nav>
         {children}
+        <footer className="footer">
+          <div className="container footer-grid">
+            <div>
+              <div className="footer-title">GUMA Finance</div>
+              <div className="footer-text">GUMA MICROFINANCE LIMITED</div>
+              <div className="footer-text">MGS PLAZA-GOBA- Madale Road</div>
+              <div className="footer-text">P. O Box 823, Dar es Salaam</div>
+            </div>
+            <div>
+              <div className="footer-title">Contact Us</div>
+              <div className="footer-text">Office: +255 765 999 321</div>
+              <div className="footer-text">Mobile: +255 763 538 375</div>
+              <div className="footer-text">Email: guma@gumafinance.co.tz</div>
+              <div className="footer-text">Web: www.gumafinance.co.tz</div>
+            </div>
+            <div>
+              <div className="footer-title">Follow Us</div>
+              <div className="footer-text">Stay connected with us on social media for updates and offers.</div>
+              <div className="footer-socials">
+                <a href="#" className="social-icon" aria-label="Facebook">FB</a>
+                <a href="#" className="social-icon" aria-label="Twitter">TW</a>
+                <a href="#" className="social-icon" aria-label="Instagram">IG</a>
+              </div>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            &copy; {new Date().getFullYear()} GUMA MICROFINANCE LIMITED. All rights reserved.
+          </div>
+        </footer>
       </body>
     </html>
   );
