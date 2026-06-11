@@ -1,8 +1,8 @@
 export default function PaymentInfoPage() {
   return (
-    <main className="container" style={{ padding: '4rem 1rem' }}>
+    <main className="container">
       <div className="form-container">
-        <h1 style={{ marginBottom: '1.5rem', fontSize: '2.5rem', color: 'white', textAlign: 'center' }}>How to Pay Your Loan</h1>
+        <h1 style={{ marginBottom: '1.5rem', fontSize: '2.5rem', color: '#1e293b', textAlign: 'center', fontWeight: '800' }}>How to Pay Your Loan</h1>
         <p style={{ color: 'var(--text-muted)', marginBottom: '3rem', textAlign: 'center', fontSize: '1.1rem' }}>
           Follow these simple steps to make your daily payment using mobile money.
         </p>

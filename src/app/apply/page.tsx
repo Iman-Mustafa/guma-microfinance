@@ -16,9 +16,9 @@ export default function ApplyPage() {
   };
 
   return (
-    <main className="container" style={{ padding: '4rem 1rem' }}>
+    <main className="container">
       <div className="form-container glass-card">
-        <h1 style={{ marginBottom: '1.5rem', fontSize: '2rem', color: 'white' }}>Apply for Bodaboda Loan</h1>
+        <h1 style={{ marginBottom: '1.5rem', fontSize: '2rem', color: '#1e293b', fontWeight: '800' }}>Apply for Bodaboda Loan</h1>
         <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>
           Please enter your National ID (NIDA) number. We will fetch your details automatically.
         </p>
