@@ -1,45 +1,72 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 const images = Array.from({ length: 13 }, (_, i) => `/guma-product/vehicle-${i + 1}.jpg`);
+// For seamless looping: Clone last image to start, first image to end
+const extendedImages = [images[images.length - 1], ...images, images[0]];
 
 export default function VehicleCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1); // Start at index 1 (the first real image)
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
+    if (currentIndex >= extendedImages.length - 1) return;
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev + 1);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    if (currentIndex <= 0) return;
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev - 1);
   };
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 5000); // Change slide every 5 seconds
+    // The user requested to move from "left to right", which means the previous slide comes in
+    timerRef.current = setInterval(() => {
+      prevSlide();
+    }, 4000); // stay for a few seconds
     
-    return () => clearInterval(timer);
-  }, []);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [currentIndex]);
+
+  const handleTransitionEnd = () => {
+    if (currentIndex === extendedImages.length - 1) {
+      // Reached the cloned first image at the end
+      setIsTransitioning(false);
+      setCurrentIndex(1);
+    } else if (currentIndex === 0) {
+      // Reached the cloned last image at the beginning
+      setIsTransitioning(false);
+      setCurrentIndex(extendedImages.length - 2);
+    }
+  };
 
   return (
     <div className="carousel-container">
       <div className="carousel-stage">
         <div 
           className="carousel-track"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          style={{ 
+            transform: `translateX(-${currentIndex * 100}%)`,
+            transition: isTransitioning ? 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)' : 'none'
+          }}
+          onTransitionEnd={handleTransitionEnd}
         >
-          {images.map((src, index) => (
-            <div key={src} className="carousel-slide">
+          {extendedImages.map((src, index) => (
+            <div key={`${src}-${index}`} className="carousel-slide">
               <Image 
                 src={src} 
-                alt={`Vehicle ${index + 1}`} 
+                alt={`Vehicle`} 
                 fill 
                 style={{ objectFit: 'cover' }}
                 sizes="(max-width: 768px) 100vw, 600px"
-                priority={index === 0}
+                priority // Preload all to prevent image pop-in
               />
             </div>
           ))}
