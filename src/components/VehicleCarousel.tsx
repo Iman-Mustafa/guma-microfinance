@@ -4,84 +4,98 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 const images = Array.from({ length: 13 }, (_, i) => `/guma-product/vehicle-${i + 1}.jpg`);
-// For seamless looping: Clone last image to start, first image to end
-const extendedImages = [images[images.length - 1], ...images, images[0]];
 
 export default function VehicleCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(1); // Start at index 1 (the first real image)
-  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const nextSlide = () => {
-    if (currentIndex >= extendedImages.length - 1) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => prev + 1);
+    setCurrentIndex((prev) => (prev + 1) % images.length);
   };
 
-  const prevSlide = () => {
-    if (currentIndex <= 0) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => prev - 1);
+  const setSlide = (index: number) => {
+    setCurrentIndex(index);
   };
 
   useEffect(() => {
-    if (isHovered) return; // Pause the slideshow if the user is hovering
+    if (isHovered) return;
 
-    // The user requested to move from "left to right", which means the previous slide comes in
     timerRef.current = setInterval(() => {
-      prevSlide();
-    }, 4000); // stay for a few seconds
+      nextSlide();
+    }, 3000); // 3 seconds timer requested by user
     
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [currentIndex, isHovered]);
 
-  const handleTransitionEnd = () => {
-    if (currentIndex === extendedImages.length - 1) {
-      // Reached the cloned first image at the end
-      setIsTransitioning(false);
-      setCurrentIndex(1);
-    } else if (currentIndex === 0) {
-      // Reached the cloned last image at the beginning
-      setIsTransitioning(false);
-      setCurrentIndex(extendedImages.length - 2);
-    }
+  const getPrevIndices = () => {
+    return [
+      (currentIndex - 3 + images.length) % images.length,
+      (currentIndex - 2 + images.length) % images.length,
+      (currentIndex - 1 + images.length) % images.length,
+    ];
   };
+
+  const getNextIndices = () => {
+    return [
+      (currentIndex + 1) % images.length,
+      (currentIndex + 2) % images.length,
+      (currentIndex + 3) % images.length,
+    ];
+  };
+
+  const leftThumbs = getPrevIndices();
+  const rightThumbs = getNextIndices();
 
   return (
     <div 
-      className="carousel-container"
+      className="carousel-container new-design"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="carousel-stage">
-        <div 
-          className="carousel-track"
-          style={{ 
-            transform: `translateX(-${currentIndex * 100}%)`,
-            transition: isTransitioning ? 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)' : 'none'
-          }}
-          onTransitionEnd={handleTransitionEnd}
-        >
-          {extendedImages.map((src, index) => (
-            <div key={`${src}-${index}`} className="carousel-slide">
-              <Image 
-                src={src} 
-                alt={`Vehicle`} 
-                fill 
-                style={{ objectFit: 'cover' }}
-                sizes="(max-width: 768px) 100vw, 600px"
-                priority // Preload all to prevent image pop-in
-              />
+      <div className="carousel-layout">
+        <div className="carousel-side left-side desktop-only">
+          {leftThumbs.map((idx) => (
+            <div key={`left-${idx}`} className="thumbnail" onClick={() => setSlide(idx)}>
+              <Image src={images[idx]} alt={`Thumbnail ${idx}`} fill sizes="150px" style={{ objectFit: 'cover' }} />
+            </div>
+          ))}
+        </div>
+
+        <div className="carousel-center">
+          <div className="oval-frame">
+            <Image 
+              src={images[currentIndex]} 
+              alt="Central Vehicle" 
+              fill 
+              sizes="(max-width: 768px) 100vw, 600px" 
+              style={{ objectFit: 'cover' }} 
+              priority
+            />
+          </div>
+        </div>
+
+        <div className="carousel-side right-side desktop-only">
+          {rightThumbs.map((idx) => (
+            <div key={`right-${idx}`} className="thumbnail" onClick={() => setSlide(idx)}>
+              <Image src={images[idx]} alt={`Thumbnail ${idx}`} fill sizes="150px" style={{ objectFit: 'cover' }} />
             </div>
           ))}
         </div>
       </div>
-      <div className="carousel-controls">
-        <button onClick={prevSlide} className="carousel-btn" aria-label="Previous">&lt;</button>
-        <button onClick={nextSlide} className="carousel-btn" aria-label="Next">&gt;</button>
+
+      <div className="mobile-thumbnails mobile-only">
+         {images.map((src, idx) => (
+            <div 
+              key={`mob-${idx}`} 
+              className={`thumbnail ${idx === currentIndex ? 'active' : ''}`} 
+              onClick={() => setSlide(idx)}
+            >
+              <Image src={src} alt={`Thumbnail ${idx}`} fill sizes="80px" style={{ objectFit: 'cover' }} />
+            </div>
+         ))}
       </div>
     </div>
   );
