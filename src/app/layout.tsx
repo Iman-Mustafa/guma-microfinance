@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Image from 'next/image';
-import { Facebook, Twitter, Instagram } from 'lucide-react';
+import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -64,9 +64,9 @@ export default function RootLayout({
               <div className="footer-title">Follow Us</div>
               <div className="footer-text">Stay connected with us on social media for updates and offers.</div>
               <div className="footer-socials">
-                <a href="#" className="social-icon" aria-label="Facebook"><Facebook size={20} /></a>
-                <a href="#" className="social-icon" aria-label="Twitter"><Twitter size={20} /></a>
-                <a href="#" className="social-icon" aria-label="Instagram"><Instagram size={20} /></a>
+                <a href="#" className="social-icon" aria-label="Facebook"><FaFacebook size={20} /></a>
+                <a href="#" className="social-icon" aria-label="Twitter"><FaTwitter size={20} /></a>
+                <a href="#" className="social-icon" aria-label="Instagram"><FaInstagram size={20} /></a>
               </div>
             </div>
           </div>
