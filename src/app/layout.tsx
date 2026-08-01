@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Guma Microfinance | Empowering Bodaboda Drivers',
   description: 'Flexible loans and daily payments for bodaboda drivers in Tanzania.',
   icons: {
-    icon: '/GUMA-MICROFINANCE-LOGO.png',
+    icon: '/GUMA-MICROFINANCE-BANNER.png',
   },
 };
 
@@ -26,11 +26,11 @@ export default function RootLayout({
           <div className="nav-brand">
             <a href="/">
               <Image 
-                src="/GUMA-MICROFINANCE-LOGO.png" 
-                alt="Guma Microfinance Logo" 
-                width={200} 
-                height={60} 
-                style={{ objectFit: 'contain' }}
+                src="/GUMA-MICROFINANCE-BANNER.png" 
+                alt="Guma Microfinance Banner" 
+                width={220} 
+                height={85} 
+                style={{ objectFit: 'contain', maxHeight: '70px', width: 'auto' }}
                 priority
               />
             </a>
