@@ -1,10 +1,16 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import Image from 'next/image';
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
+import Navbar from '@/components/Navbar';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const jakarta = Plus_Jakarta_Sans({ 
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-jakarta',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Guma Microfinance | Empowering Bodaboda Drivers',
@@ -20,30 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <nav className="navbar container">
-          <div className="nav-brand">
-            <a href="/">
-              <Image 
-                src="/GUMA-MICROFINANCE-BANNER.png" 
-                alt="Guma Microfinance Banner" 
-                width={220} 
-                height={85} 
-                style={{ objectFit: 'contain', maxHeight: '70px', width: 'auto' }}
-                priority
-              />
-            </a>
-          </div>
-          <div className="nav-links">
-            <a href="/" className="nav-link">Home</a>
-            <a href="/apply" className="nav-link">Apply for Loan</a>
-            <a href="/payment-info" className="nav-link">How to Pay</a>
-            <a href="https://loanen.vercel.app/" target="_blank" rel="noopener noreferrer" className="nav-link staff-login-btn">
-              Staff Login
-            </a>
-          </div>
-        </nav>
+    <html lang="en" className={jakarta.variable}>
+      <body className={jakarta.className}>
+        <Navbar />
         {children}
         <footer className="footer">
           <div className="container footer-grid">
